@@ -1,19 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// 开启历史模式
-// vue2中使用 mode: history 实现
+
+import Index from '@/views/index.vue'
+import About from '@/views/about.vue'
+import NotFound from '@/views/404.vue'
+const routes = [
+    {
+        path: "/",
+        component: Index
+    },
+    {
+        path: "/about",
+        component: About
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound
+    }
+]
+
 const routerHistory = createWebHistory();
 const router = createRouter({
     history: routerHistory,
-    routes: [
-        {
-            path: '/',
-            redirect: '/login'
-        },
-        {
-            path: '/login',
-            component: () => import('../views/login.vue')
-        },
-    ]
+    routes,
 })
 
 export default router
