@@ -1,6 +1,6 @@
-import request from "@/utils/request"
+import request from "@/utils/request.js"
 
-const LoginFrom = (data={}) => {
+const LoginFrom = (data = {}) => {
     return request({
         url: "admin/login",
         method: "POST",

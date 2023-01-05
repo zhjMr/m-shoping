@@ -19,10 +19,10 @@
             </div>
             <el-form ref="ruleFormRef" class="dynamic" :model="ruleForm" :rules="rules">
                 <el-form-item prop="username">
-                    <el-input prefix-icon="User" v-model="ruleForm.username" placeholder="请输入用户名" />
+                    <el-input prefix-icon="User" v-model.trim="ruleForm.username" placeholder="请输入用户名" />
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input prefix-icon="Lock" v-model="ruleForm.password" placeholder="请输入密码" />
+                    <el-input prefix-icon="Lock" v-model.trim="ruleForm.password" placeholder="请输入密码" />
                 </el-form-item>
                 <el-form-item>
                     <el-button color="#626aef" round class="dynamic" @click="submitForm(ruleFormRef)">
@@ -36,6 +36,9 @@
 <script setup>
 import LoginApi from "@/api/login.js"
 import { reactive, ref, toRefs } from "vue"
+import { useRouter } from "vue-router"
+import { useStore } from "vuex"
+import { ElNotification } from 'element-plus'
 const data = reactive({
     //表单数据
     ruleForm: {
@@ -52,22 +55,41 @@ const data = reactive({
         ],
     }
 })
+//初始化路由
+const router = useRouter()
+//初始化store
+const store = useStore()
 const ruleFormRef = ref()
-//点击登录的事件
+//点击登录触发的事件
 const submitForm = (formEl) => {
-    if (!formEl) return
-    formEl.validate(async (valid, fields) => {
-        if (valid) {
-            const response = await LoginApi.LoginFrom(data.ruleForm)
+    formEl.validate((valid) => {
+        if (!valid) return
+        LoginApi.LoginFrom(data.ruleForm).then((response) => {
+            //登录成功进行提示
             console.log(response);
-        } else {
-            console.log('error submit!', fields)
-        }
+            ElNotification({
+                message: '登录成功',
+                type: 'success',
+                duration: 1500
+            })
+            //存储token信息
+            store.commit('Maptoken', response.data.data.token)
+            //登录成功跳转到首页
+            router.push('/')
+        }).catch((error) => {
+            //捕获错误信息
+            console.log(error.response.data.msg);
+            ElNotification({
+                message: error.response.data.msg,
+                type: 'error',
+                duration: 1500
+            })
+        })
     })
 }
 const { ruleForm, rules } = toRefs(data)
 </script>
-<style  scoped>
+<style lang="postcss" scoped>
 .login-container {
     @apply bg-indigo-500 min-h-screen;
 }

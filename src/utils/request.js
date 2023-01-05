@@ -10,7 +10,8 @@ const api = axios.create({
 api.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     config.headers["Content-type"] = "application/x-www-form-urlencoded";
-    
+    const token = localStorage.getItem('TOKEN')
+    config.headers.token = token;
     return config;
 }, function (error) {
     // 对请求错误做些什么
