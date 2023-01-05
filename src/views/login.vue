@@ -1,6 +1,6 @@
 <template>
     <el-row class="bg-indigo-500 min-h-screen">
-        <el-col :span="16" class="flex justify-center items-center">
+        <el-col :lg="16" :md="12" class="flex justify-center items-center">
             <div>
                 <div class="text-light-50 font-bold text-3xl mb-3 text-center">
                     欢迎光临
@@ -10,7 +10,7 @@
                 </div>
             </div>
         </el-col>
-        <el-col :span="8" class="bg-light-50  flex justify-center items-center flex-col">
+        <el-col :lg="8" :md="12" class="bg-light-50  flex justify-center items-center flex-col">
             <h2 class="text-3xl font-bold text-gray-800 ">欢迎回来</h2>
             <div class="my-5 text-gray-300 flex justify-center items-center space-x-2">
                 <span class="h-[1px] w-16 bg-gray-200"></span>
