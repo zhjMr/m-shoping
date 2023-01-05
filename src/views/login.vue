@@ -1,23 +1,23 @@
 <template>
-    <el-row class="bg-indigo-500 min-h-screen">
-        <el-col :lg="16" :md="12" class="flex justify-center items-center">
+    <el-row class="login-container">
+        <el-col :lg="16" :md="12" class="left">
             <div>
-                <div class="text-light-50 font-bold text-3xl mb-3 text-center">
+                <div class="login-welcome">
                     欢迎光临
                 </div>
-                <div class="text-light-50 ">
+                <div class="power">
                     《vue3 +vite》实战项目演示网站
                 </div>
             </div>
         </el-col>
-        <el-col :lg="8" :md="12" class="bg-light-50  flex justify-center items-center flex-col">
-            <h2 class="text-3xl font-bold text-gray-800 ">欢迎回来</h2>
-            <div class="my-5 text-gray-300 flex justify-center items-center space-x-2">
-                <span class="h-[1px] w-16 bg-gray-200"></span>
+        <el-col :lg="8" :md="12" class="right">
+            <h2 class="right-welcome">欢迎回来</h2>
+            <div class="userpass">
+                <span class="wire"></span>
                 <span>账号密码登录</span>
-                <span class="h-[1px] w-16 bg-gray-200"></span>
+                <span class="wire"></span>
             </div>
-            <el-form ref="ruleFormRef" class="w-[250px]" :model="ruleForm" :rules="rules">
+            <el-form ref="ruleFormRef" class="dynamic" :model="ruleForm" :rules="rules">
                 <el-form-item prop="username">
                     <el-input prefix-icon="User" v-model="ruleForm.username" placeholder="请输入用户名" />
                 </el-form-item>
@@ -25,7 +25,7 @@
                     <el-input prefix-icon="Lock" v-model="ruleForm.password" placeholder="请输入密码" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button color="#626aef" round class="w-[250px]" @click="submitForm(ruleFormRef)">
+                    <el-button color="#626aef" round class="dynamic" @click="submitForm(ruleFormRef)">
                         登 录
                     </el-button>
                 </el-form-item>
@@ -68,5 +68,39 @@ const submitForm = (formEl) => {
 const { ruleForm, rules } = toRefs(data)
 </script>
 <style  scoped>
+.login-container {
+    @apply bg-indigo-500 min-h-screen;
+}
 
+.login-container .left {
+    @apply flex justify-center items-center;
+}
+
+.login-container .left .login-welcome {
+    @apply text-light-50 font-bold text-3xl mb-3 text-center;
+}
+
+.login-container .left .power {
+    @apply text-light-50;
+}
+
+.login-container .right {
+    @apply bg-light-50 flex justify-center items-center flex-col;
+}
+
+.login-container .right .right-welcome {
+    @apply text-3xl font-bold text-gray-800;
+}
+
+.login-container .right .userpass {
+    @apply my-5 text-gray-300 flex justify-center items-center space-x-2;
+}
+
+.login-container .right .userpass .wire {
+    @apply h-[1px] w-16 bg-gray-200;
+}
+
+.login-container .right .dynamic {
+    @apply w-[250px];
+}
 </style>
