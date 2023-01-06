@@ -3,7 +3,7 @@ import store from '@/store'
 import { getToken } from '@/composables/auth.js'
 import { showFullloading, hideFullloading } from '@/composables/utils.js'
 router.beforeEach(async (to, from, next) => {
-  //开启loading进度条
+    //开启loading进度条
     showFullloading()
     //获取token
     const token = getToken()
@@ -22,10 +22,14 @@ router.beforeEach(async (to, from, next) => {
     if (token) {
         await store.dispatch('userinfo')
     }
+
+    //动态甚至页面标题
+    let title = (to.meta.title ? to.meta.title : '') + " - 后台商城系统"
+    document.title = title
     next()
 })
 //全局后置守卫
 router.afterEach((to, from) => {
-     //关闭loading进度条
+    //关闭loading进度条
     hideFullloading()
 })
