@@ -70,6 +70,11 @@
   "resolved" "https://registry.npmjs.org/@sxzz/popperjs-es/-/popperjs-es-2.11.7.tgz"
   "version" "2.11.7"
 
+"@types/cookie@^0.3.3":
+  "integrity" "sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow=="
+  "resolved" "https://registry.npmjs.org/@types/cookie/-/cookie-0.3.3.tgz"
+  "version" "0.3.3"
+
 "@types/lodash-es@*", "@types/lodash-es@^4.17.6":
   "integrity" "sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg=="
   "resolved" "https://registry.npmjs.org/@types/lodash-es/-/lodash-es-4.17.6.tgz"
@@ -187,25 +192,34 @@
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.45.tgz"
   "version" "3.2.45"
 
-"@vueuse/core@^9.1.0":
-  "integrity" "sha512-JdDb7TrE0imZnwBhMF4+0PCJqGD3AxzH8S2sfk54P0rqvklK+EAtAR/mPb1HwV/JPujQFQJhghQ190Yq03YpVw=="
-  "resolved" "https://registry.npmjs.org/@vueuse/core/-/core-9.9.0.tgz"
-  "version" "9.9.0"
+"@vueuse/core@^9.1.0", "@vueuse/core@9.10.0":
+  "integrity" "sha512-CxMewME07qeuzuT/AOIQGv0EhhDoojniqU6pC3F8m5VC76L47UT18DcX88kWlP3I7d3qMJ4u/PD8iSRsy3bmNA=="
+  "resolved" "https://registry.npmjs.org/@vueuse/core/-/core-9.10.0.tgz"
+  "version" "9.10.0"
   dependencies:
     "@types/web-bluetooth" "^0.0.16"
-    "@vueuse/metadata" "9.9.0"
-    "@vueuse/shared" "9.9.0"
+    "@vueuse/metadata" "9.10.0"
+    "@vueuse/shared" "9.10.0"
     "vue-demi" "*"
 
-"@vueuse/metadata@9.9.0":
-  "integrity" "sha512-pgxsUJv/d7IjKpLeB6TthggEsaBwM3ffc5jPrr5TmxAm/fup0mGR5VTzrdA/PSx85tpb+CIvP92D+55qBNc8ag=="
-  "resolved" "https://registry.npmjs.org/@vueuse/metadata/-/metadata-9.9.0.tgz"
-  "version" "9.9.0"
+"@vueuse/integrations@^9.10.0":
+  "integrity" "sha512-MLGVbN3i9gRq3pb8VRZXgPvbNJcUUvgR5pmbc1QZj4Z1vvsvxam159AwWEJdyX2I39a1E7EkmBujtiXtVckO5g=="
+  "resolved" "https://registry.npmjs.org/@vueuse/integrations/-/integrations-9.10.0.tgz"
+  "version" "9.10.0"
+  dependencies:
+    "@vueuse/core" "9.10.0"
+    "@vueuse/shared" "9.10.0"
+    "vue-demi" "*"
 
-"@vueuse/shared@9.9.0":
-  "integrity" "sha512-+D0XFwHG0T+uaIbCSlROBwm1wzs71B7n3KyDOxnvfEMMHDOzl09rYKwaE2AENmYwYPXfHPbSBRDD2gBVHbvTcg=="
-  "resolved" "https://registry.npmjs.org/@vueuse/shared/-/shared-9.9.0.tgz"
-  "version" "9.9.0"
+"@vueuse/metadata@9.10.0":
+  "integrity" "sha512-G5VZhgTCapzU9rv0Iq2HBrVOSGzOKb+OE668NxhXNcTjUjwYxULkEhAw70FtRLMZc+hxcFAzDZlKYA0xcwNMuw=="
+  "resolved" "https://registry.npmjs.org/@vueuse/metadata/-/metadata-9.10.0.tgz"
+  "version" "9.10.0"
+
+"@vueuse/shared@9.10.0":
+  "integrity" "sha512-vakHJ2ZRklAzqmcVBL38RS7BxdBA4+5poG9NsSyqJxrt9kz0zX3P5CXMy0Hm6LFbZXUgvKdqAS3pUH1zX/5qTQ=="
+  "resolved" "https://registry.npmjs.org/@vueuse/shared/-/shared-9.10.0.tgz"
+  "version" "9.10.0"
   dependencies:
     "vue-demi" "*"
 
@@ -231,7 +245,7 @@
     "micromatch" "^4.0.5"
     "windicss" "^3.5.6"
 
-"async-validator@^4.2.5":
+"async-validator@*", "async-validator@^4.2.5":
   "integrity" "sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg=="
   "resolved" "https://registry.npmjs.org/async-validator/-/async-validator-4.2.5.tgz"
   "version" "4.2.5"
@@ -241,7 +255,7 @@
   "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   "version" "0.4.0"
 
-"axios@^1.2.2":
+"axios@*", "axios@^1.2.2":
   "integrity" "sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q=="
   "resolved" "https://registry.npmjs.org/axios/-/axios-1.2.2.tgz"
   "version" "1.2.2"
@@ -263,6 +277,11 @@
   "version" "1.0.8"
   dependencies:
     "delayed-stream" "~1.0.0"
+
+"cookie@^0.4.0":
+  "integrity" "sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA=="
+  "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.4.2.tgz"
+  "version" "0.4.2"
 
 "csstype@^2.6.8":
   "integrity" "sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w=="
@@ -611,6 +630,14 @@
   "version" "5.0.1"
   dependencies:
     "is-number" "^7.0.0"
+
+"universal-cookie@*", "universal-cookie@^4.0.4":
+  "integrity" "sha512-lbRVHoOMtItjWbM7TwDLdl8wug7izB0tq3/YVKhT/ahB4VDvWMyvnADfnJI8y6fSvsjh51Ix7lTGC6Tn4rMPhw=="
+  "resolved" "https://registry.npmjs.org/universal-cookie/-/universal-cookie-4.0.4.tgz"
+  "version" "4.0.4"
+  dependencies:
+    "@types/cookie" "^0.3.3"
+    "cookie" "^0.4.0"
 
 "vite-plugin-windicss@^1.8.10":
   "integrity" "sha512-scywsuzo46lcTBohspmF0WiwhWEte6p+OUVrX4yr7VMRvLHMHVfLtJReyD5pppjijG7YOwVsZn7XBWWZtF658Q=="

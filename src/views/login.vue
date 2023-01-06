@@ -36,9 +36,11 @@
 <script setup>
 import LoginApi from "@/api/login.js"
 import { reactive, ref, toRefs } from "vue"
+import { useCookies } from '@vueuse/integrations/useCookies'
 import { useRouter } from "vue-router"
 import { useStore } from "vuex"
 import { ElNotification } from 'element-plus'
+
 const data = reactive({
     //表单数据
     ruleForm: {
@@ -55,6 +57,8 @@ const data = reactive({
         ],
     }
 })
+//初始化cookies
+const Cookies = useCookies()
 //初始化路由
 const router = useRouter()
 //初始化store
@@ -73,6 +77,7 @@ const submitForm = (formEl) => {
                 duration: 1500
             })
             //存储token信息
+            Cookies.set('admin-token', response.data.data.token)
             store.commit('Maptoken', response.data.data.token)
             //登录成功跳转到首页
             router.push('/')
