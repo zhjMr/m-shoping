@@ -25,8 +25,7 @@
                     <el-input prefix-icon="Lock" v-model.trim="ruleForm.password" placeholder="请输入密码" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button :loading="loading" color="#626aef" round class="dynamic"
-                        @click="submitForm(ruleFormRef)">
+                    <el-button :loading="loading" color="#626aef" round class="dynamic" @click="submitForm">
                         登 录
                     </el-button>
                 </el-form-item>
@@ -35,11 +34,8 @@
     </el-row>
 </template>
 <script setup>
-import LoginApi from "@/api/login.js"
 
-import { reactive, ref, toRefs } from "vue"
-
-import { setToken } from '@/composables/auth.js'
+import { reactive, ref, toRefs, onMounted, onBeforeUnmount } from "vue"
 
 import { useRouter } from "vue-router"
 
@@ -71,37 +67,41 @@ const router = useRouter()
 //初始化store
 const store = useStore()
 
-const ruleFormRef = ref()
+const ruleFormRef = ref(null)
 
 //初始化loading状态
 const loading = ref(false)
 
 //点击登录触发的事件
-const submitForm = (formEl) => {
-    formEl.validate((valid) => {
+const submitForm = () => {
+    ruleFormRef.value.validate((valid) => {
         if (!valid) return
         //开启登录按钮loading
         loading.value = true
-        LoginApi.LoginFrom(data.ruleForm).then((response) => {
+        store.dispatch('login', data.ruleForm).then(() => {
             //登录成功进行提示
             // console.log(response);
             taost('登录成功', 'success')
-            //存储token信息
-            setToken(response.token)
-            //存储用户信息
-            LoginApi.userInfo().then((response) => {
-                // console.log(response, '用户信息');
-                store.commit('USERINFO', response)
-            })
             //登录成功跳转到首页
             router.push('/')
-
         }).finally(() => {
             //关闭登录按钮loading提示
             loading.value = false
         })
     })
 }
+//监听回车事件方法
+const onkeyUp = (e) => {
+    if (e.key == 'Enter') submitForm()
+}
+onMounted(() => {
+    //添加键盘监听
+    document.addEventListener('keyup', onkeyUp)
+})
+onBeforeUnmount(() => {
+    //移除键盘
+    document.removeEventListener('keyup', onkeyUp)
+})
 const { ruleForm, rules } = toRefs(data)
 </script>
 <style lang="postcss" scoped>
