@@ -25,7 +25,8 @@
                     <el-input prefix-icon="Lock" v-model.trim="ruleForm.password" placeholder="请输入密码" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button color="#626aef" round class="dynamic" @click="submitForm(ruleFormRef)">
+                    <el-button :loading="loading" color="#626aef" round class="dynamic"
+                        @click="submitForm(ruleFormRef)">
                         登 录
                     </el-button>
                 </el-form-item>
@@ -35,10 +36,15 @@
 </template>
 <script setup>
 import LoginApi from "@/api/login.js"
+
 import { reactive, ref, toRefs } from "vue"
+
 import { useCookies } from '@vueuse/integrations/useCookies'
+
 import { useRouter } from "vue-router"
+
 import { useStore } from "vuex"
+
 import { ElNotification } from 'element-plus'
 
 const data = reactive({
@@ -59,36 +65,44 @@ const data = reactive({
 })
 //初始化cookies
 const Cookies = useCookies()
+
 //初始化路由
 const router = useRouter()
+
 //初始化store
 const store = useStore()
+
 const ruleFormRef = ref()
+
+//初始化loading状态
+const loading = ref(false)
+
 //点击登录触发的事件
 const submitForm = (formEl) => {
     formEl.validate((valid) => {
         if (!valid) return
+        //开启登录按钮loading
+        loading.value = true
         LoginApi.LoginFrom(data.ruleForm).then((response) => {
             //登录成功进行提示
-            console.log(response);
+            // console.log(response);
             ElNotification({
                 message: '登录成功',
                 type: 'success',
                 duration: 1500
             })
             //存储token信息
-            Cookies.set('admin-token', response.data.data.token)
-            store.commit('Maptoken', response.data.data.token)
+            Cookies.set('admin-token', response.token)
+            //存储用户信息
+            LoginApi.userInfo().then((response) => {
+                console.log(response, '用户信息');
+            })
             //登录成功跳转到首页
             router.push('/')
-        }).catch((error) => {
-            //捕获错误信息
-            console.log(error.response.data.msg);
-            ElNotification({
-                message: error.response.data.msg,
-                type: 'error',
-                duration: 1500
-            })
+
+        }).finally(() => {
+            //关闭登录按钮loading提示
+            loading.value = false
         })
     })
 }
