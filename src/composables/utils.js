@@ -1,4 +1,5 @@
 import { ElNotification } from 'element-plus'
+import NProgress from 'nprogress'
 //通知提示
 export const taost = (message, type = 'success', dangerouslyUseHTMLString = false) => {
     ElNotification({
@@ -20,4 +21,15 @@ export const showModel = (content = '提示内容', type = 'warning', title = ''
     }
     )
 }
+
+//开启全屏loading
+export const showFullloading = () => {
+    NProgress.start();
+}
+
+//关闭全屏loadibng
+export const hideFullloading = () => {
+    NProgress.done();
+}
+
 
