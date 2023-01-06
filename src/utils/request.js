@@ -1,7 +1,7 @@
 // 首先先引入aixos
 import axios from 'axios'
 //消息提示
-import { ElNotification } from 'element-plus'
+import { taost } from '@/composables/utils.js'
 //引入cookies
 import { getToken } from '@/composables/auth.js'
 // 创建一个axios 实例
@@ -31,11 +31,7 @@ service.interceptors.response.use(function (response) {
     return response.data.data
 }, function (error) {
     //错误进行提示
-    ElNotification({
-        message: error.response.data.msg || "数据找不到了~",
-        type: 'error',
-        duration: 1500
-    })
+    taost(error.response.data.msg || "数据找不到了~", 'error')
     return Promise.reject(error);
 });
 

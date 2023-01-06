@@ -45,7 +45,7 @@ import { useRouter } from "vue-router"
 
 import { useStore } from "vuex"
 
-import { ElNotification } from 'element-plus'
+import { taost } from '@/composables/utils.js'
 
 const data = reactive({
     //表单数据
@@ -85,16 +85,13 @@ const submitForm = (formEl) => {
         LoginApi.LoginFrom(data.ruleForm).then((response) => {
             //登录成功进行提示
             // console.log(response);
-            ElNotification({
-                message: '登录成功',
-                type: 'success',
-                duration: 1500
-            })
+            taost('登录成功', 'success')
             //存储token信息
             setToken(response.token)
             //存储用户信息
             LoginApi.userInfo().then((response) => {
-                console.log(response, '用户信息');
+                // console.log(response, '用户信息');
+                store.commit('USERINFO', response)
             })
             //登录成功跳转到首页
             router.push('/')
