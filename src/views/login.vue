@@ -39,7 +39,7 @@ import LoginApi from "@/api/login.js"
 
 import { reactive, ref, toRefs } from "vue"
 
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { setToken } from '@/composables/auth.js'
 
 import { useRouter } from "vue-router"
 
@@ -63,8 +63,7 @@ const data = reactive({
         ],
     }
 })
-//初始化cookies
-const Cookies = useCookies()
+
 
 //初始化路由
 const router = useRouter()
@@ -92,7 +91,7 @@ const submitForm = (formEl) => {
                 duration: 1500
             })
             //存储token信息
-            Cookies.set('admin-token', response.token)
+            setToken(response.token)
             //存储用户信息
             LoginApi.userInfo().then((response) => {
                 console.log(response, '用户信息');

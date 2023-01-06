@@ -3,7 +3,7 @@ import axios from 'axios'
 //消息提示
 import { ElNotification } from 'element-plus'
 //引入cookies
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { getToken } from '@/composables/auth.js'
 // 创建一个axios 实例
 const service = axios.create({
     baseURL: "/api", // 基准地址
@@ -12,11 +12,10 @@ const service = axios.create({
 
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {
-    //初始化cookies
-    const Cookie = useCookies()
+
     //获取cookie的数据
-    const token = Cookie.get('admin-token')
-    //判断token是否存在存在则进行header添加字段
+    const token = getToken()
+    //判断token是否存在存在则在header头添加字段
     if (token) {
         config.headers['token'] = token
     }
