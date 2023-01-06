@@ -45,6 +45,14 @@
     </div>
 </template>
 <script setup>
+import LoginApI from '@/api/login.js'
+import { useStore } from 'vuex'
+import { taost } from "@/composables/utils.js"
+import { useRouter } from 'vue-router'
+//初始化store
+const store = useStore()
+//初始化路由
+const router = useRouter()
 // 修改密码  退出登录
 const handleCommand = (e) => {
     console.log(e);
@@ -58,7 +66,14 @@ const handleCommand = (e) => {
 };
 //点击退出登录触发的方法
 const handleLogout = () => {
-    alert('退出登录')
+
+    //调用退出登录方法
+    store.dispatch('loginOut').finally(() => {
+        //消息提示
+        taost('退出登录成功')
+        //跳转登录页
+        router.push('/login')
+    })
 }
 //点击修改密码触发的方法
 const handleChangePass = () => {

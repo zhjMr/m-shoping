@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { setToken } from '@/composables/auth.js'
+import { setToken, removeToken } from '@/composables/auth.js'
 import userApi from '@/api/login.js'
 const store = createStore({
     state: {
@@ -36,7 +36,20 @@ const store = createStore({
                     reject(error);
                 })
             })
-        }
+        },
+        // 退出登录
+        loginOut({ commit }) {
+            return new Promise((resolve, reject) => {
+                userApi.logout().then((response) => {
+                    //清空cookie数据
+                    removeToken()
+                    commit('USERINFO', {})
+                    resolve(response)
+                }).catch((error) => {
+                    reject(error);
+                })
+            })
+        },
     }
 })
 

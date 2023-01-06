@@ -15,7 +15,15 @@ const userInfo = (data = {}) => {
         data
     })
 }
+//获取退出登录接口
+const logout = () => {
+    return request({
+        url: "/admin/logout",
+        method: "POST",
+    })
+}
 export default {
     LoginFrom,
-    userInfo
+    userInfo,
+    logout
 }
