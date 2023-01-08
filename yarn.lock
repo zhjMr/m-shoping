@@ -192,7 +192,7 @@
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.45.tgz"
   "version" "3.2.45"
 
-"@vueuse/core@^9.1.0", "@vueuse/core@9.10.0":
+"@vueuse/core@^9.1.0", "@vueuse/core@^9.10.0", "@vueuse/core@9.10.0":
   "integrity" "sha512-CxMewME07qeuzuT/AOIQGv0EhhDoojniqU6pC3F8m5VC76L47UT18DcX88kWlP3I7d3qMJ4u/PD8iSRsy3bmNA=="
   "resolved" "https://registry.npmjs.org/@vueuse/core/-/core-9.10.0.tgz"
   "version" "9.10.0"
