@@ -3,14 +3,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Index from '@/views/index.vue'
 import NotFound from '@/views/404.vue'
 import Login from '@/views/login.vue'
+import Admin from '@/layout/admin.vue'
 const routes = [
     {
         path: "/",
-        component: Index,
-        meta: {
-            title: "后台首页"
-        }
-
+        component: Admin,
+        children: [
+            {
+                path: "/",
+                component: Index,
+                meta: {
+                    title: "后台首页"
+                },
+            }
+        ]
     },
     {
         path: "/login",

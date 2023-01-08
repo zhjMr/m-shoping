@@ -1,8 +1,9 @@
-import { ElNotification } from 'element-plus'
+import { ElNotification, ElMessageBox } from 'element-plus'
+
 import NProgress from 'nprogress'
 //通知提示
 export const taost = (message, type = 'success', dangerouslyUseHTMLString = false) => {
-    ElNotification({
+    return ElNotification({
         message,
         type,
         duration: 1500,
@@ -12,7 +13,7 @@ export const taost = (message, type = 'success', dangerouslyUseHTMLString = fals
 
 //消息弹出框
 export const showModel = (content = '提示内容', type = 'warning', title = '') => {
-    ElMessageBox.confirm(
+    return ElMessageBox.confirm(
         content,
         title, {
         confirmButtonText: '确定',
