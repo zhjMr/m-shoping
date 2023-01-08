@@ -17,7 +17,7 @@
     <div class="ml-auto dropdown">
       <!-- 全屏图标 -->
       <el-tooltip effect="dark" content="全屏" placement="bottom">
-        <el-icon class="icon-btn" @clikc="toggle">
+        <el-icon class="icon-btn" @click="toggle">
           <FullScreen v-if="!isFullscreen" />
           <Aim v-else />
         </el-icon>
@@ -40,18 +40,95 @@
       </el-dropdown>
     </div>
   </div>
+  <!-- 抽屉 -->
+  <el-drawer
+    v-model="Showdrawer"
+    title="修改密码"
+    size="45%"
+    :close-on-click-modal="false"
+  >
+    <el-form
+      ref="ruleFormRef"
+      class="dynamic"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="80px"
+      label-position="right"
+      size="small"
+    >
+      <el-form-item prop="oldpassword" label="旧密码">
+        <el-input
+          v-model.trim="ruleForm.oldpassword"
+          placeholder="请输入用户名"
+        />
+      </el-form-item>
+      <el-form-item prop="password" label="新密码">
+        <el-input v-model.trim="ruleForm.password" placeholder="请输入密码" />
+      </el-form-item>
+      <el-form-item prop="repassword" label="确认密码">
+        <el-input v-model.trim="ruleForm.repassword" placeholder="请输入密码" />
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          :loading="loading"
+          color="#626aef"
+          class="dynamic"
+          @click="submitForm"
+        >
+          提交
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-drawer>
 </template>
 <script setup>
 import { useStore } from "vuex";
+
 import { taost, showModel } from "@/composables/utils.js";
+
 import { useRouter } from "vue-router";
+
 import { useFullscreen } from "@vueuse/core";
-// isFullscreen 是否是全屏 enter 进入全屏 exit退出全屏 toggle全屏切换
-const { isFullscreen, enter, exit, toggle } = useFullscreen();
+
+import { ref, reactive, toRefs } from "vue";
+
+import loginApi from "@/api/login.js";
+const data = reactive({
+  //表单数据
+  ruleForm: {
+    oldpassword: "", //旧密码
+    password: "", //新密码
+    repassword: "", //确认密码
+  },
+  //表单校验
+  rules: {
+    oldpassword: [
+      { required: true, message: "旧密码不能为空", trigger: "blur" },
+    ],
+    password: [{ required: true, message: "新密码不能为空", trigger: "blur" }],
+
+    repassword: [
+      { required: true, message: "确认密码不能为空", trigger: "blur" },
+    ],
+  },
+});
 //初始化store
 const store = useStore();
+
 //初始化路由
 const router = useRouter();
+
+// isFullscreen 是否是全屏 enter 进入全屏 exit退出全屏 toggle全屏切换
+const { isFullscreen, toggle } = useFullscreen();
+
+//控制抽屉的状态
+const Showdrawer = ref(false);
+
+//初始化loading状态
+const loading = ref(false);
+
+const ruleFormRef = ref(null);
+
 // 修改密码  退出登录
 const handleCommand = (command) => {
   switch (command) {
@@ -61,9 +138,30 @@ const handleCommand = (command) => {
       break;
     case "rePassword":
       // rePassword调用修改密码方法
-      handleChangePass();
+      Showdrawer.value = true;
+      break;
   }
 };
+
+//点击提交触发的事件
+const submitForm = () => {
+  ruleFormRef.value.validate((valid) => {
+    if (!valid) return;
+    //开启提交按钮loading
+    loading.value = true;
+
+    loginApi.updatepassword(data.ruleForm).then((response) => {
+      //关闭提交按钮loading
+      loading.value = false;
+      taost("修改密码成功,请重新登录");
+      //清空本地和vuex数据
+      store.dispatch("loginOut");
+      //跳转登录
+      router.push("/login");
+    });
+  });
+};
+
 //点击退出登录触发的方法
 const handleLogout = () => {
   showModel("确定要退出登录吗 ?").then((response) => {
@@ -76,14 +174,13 @@ const handleLogout = () => {
     });
   });
 };
-//点击修改密码触发的方法
-const handleChangePass = () => {
-  alert("修改密码");
-};
+
 //点击刷新触发的方法
 const handleRefsh = () => {
   location.reload();
 };
+
+const { ruleForm, rules } = toRefs(data);
 </script>
 <style lang="postcss" scoped>
 .Appheader {

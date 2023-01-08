@@ -1,9 +1,11 @@
 // 首先先引入aixos
 import axios from 'axios'
+import store from '@/store/index.js'
 //消息提示
 import { taost } from '@/composables/utils.js'
 //引入cookies
 import { getToken } from '@/composables/auth.js'
+
 // 创建一个axios 实例
 const service = axios.create({
     baseURL: "/api", // 基准地址
@@ -30,8 +32,14 @@ service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     return response.data.data
 }, function (error) {
+    const msg = error.response.data.msg || "数据找不到了~"
+    // if (mag === '非法token,请先登录') {
+    //     store.dispatch('loginOut').finally(() => {
+    //         location.reload()
+    //     })
+    // }
     //错误进行提示
-    taost(error.response.data.msg || "数据找不到了~", 'error')
+    taost(msg, 'error')
     return Promise.reject(error);
 });
 

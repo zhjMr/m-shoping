@@ -22,8 +22,17 @@ const logout = () => {
         method: "POST",
     })
 }
+//获取修改密码接口
+const updatepassword = (data={}) => {
+    return request({
+        url: "/admin/updatepassword",
+        method: "POST",
+        data
+    })
+}
 export default {
     LoginFrom,
     userInfo,
-    logout
+    logout,
+    updatepassword
 }
