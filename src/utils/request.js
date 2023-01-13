@@ -1,8 +1,10 @@
 // 首先先引入aixos
 import axios from 'axios'
-import store from '@/store/index.js'
 //消息提示
 import { taost } from '@/composables/utils.js'
+
+import store from '@/store'
+
 //引入cookies
 import { getToken } from '@/composables/auth.js'
 
@@ -33,11 +35,11 @@ service.interceptors.response.use(function (response) {
     return response.data.data
 }, function (error) {
     const msg = error.response.data.msg || "数据找不到了~"
-    // if (mag === '非法token,请先登录') {
-    //     store.dispatch('loginOut').finally(() => {
-    //         location.reload()
-    //     })
-    // }
+    if (msg == '非法token,请先登录') {
+        store.dispatch('loginOut').finally(() => {
+            location.reload()
+        })
+    }
     //错误进行提示
     taost(msg, 'error')
     return Promise.reject(error);

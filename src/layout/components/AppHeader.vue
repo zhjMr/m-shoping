@@ -150,15 +150,20 @@ const submitForm = () => {
     //开启提交按钮loading
     loading.value = true;
 
-    loginApi.updatepassword(data.ruleForm).then((response) => {
-      //关闭提交按钮loading
-      loading.value = false;
-      taost("修改密码成功,请重新登录");
-      //清空本地和vuex数据
-      store.dispatch("loginOut");
-      //跳转登录
-      router.push("/login");
-    });
+    loginApi
+      .updatepassword(data.ruleForm)
+      .then((response) => {
+        //关闭提交按钮loading
+        loading.value = false;
+        taost("修改密码成功,请重新登录");
+        //清空本地和vuex数据
+        store.dispatch("loginOut");
+        //跳转登录
+        router.push("/login");
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   });
 };
 

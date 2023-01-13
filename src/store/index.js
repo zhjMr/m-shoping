@@ -37,19 +37,15 @@ const store = createStore({
                 })
             })
         },
-        // 退出登录
-        loginOut({ commit }) {
-            return new Promise((resolve, reject) => {
-                userApi.logout().then((response) => {
-                    //清空cookie数据
-                    removeToken()
-                    commit('USERINFO', {})
-                    resolve(response)
-                }).catch((error) => {
-                    reject(error);
-                })
-            })
-        },
+        //  退出登录
+        loginOut({
+            commit
+        }) {
+            // 移除cookie里面的token
+            removeToken()
+            // 清除vuex的用户信息
+            commit("USERINFO", {})
+        }
     }
 })
 
