@@ -41,11 +41,11 @@
     </div>
   </div>
   <!-- 抽屉 -->
-  <el-drawer
-    v-model="Showdrawer"
+  <FromDrawer
+    ref="fromDrawerRef"
+    @submitForm="submitForm"
     title="修改密码"
-    size="45%"
-    :close-on-click-modal="false"
+    destroyedOnClose
   >
     <el-form
       ref="ruleFormRef"
@@ -59,27 +59,20 @@
       <el-form-item prop="oldpassword" label="旧密码">
         <el-input
           v-model.trim="ruleForm.oldpassword"
-          placeholder="请输入用户名"
+          placeholder="请输入旧密码"
         />
       </el-form-item>
       <el-form-item prop="password" label="新密码">
         <el-input v-model.trim="ruleForm.password" placeholder="请输入密码" />
       </el-form-item>
       <el-form-item prop="repassword" label="确认密码">
-        <el-input v-model.trim="ruleForm.repassword" placeholder="请输入密码" />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          :loading="loading"
-          color="#626aef"
-          class="dynamic"
-          @click="submitForm"
-        >
-          提交
-        </el-button>
+        <el-input
+          v-model.trim="ruleForm.repassword"
+          placeholder="请输入确认密码"
+        />
       </el-form-item>
     </el-form>
-  </el-drawer>
+  </FromDrawer>
 </template>
 <script setup>
 import { useStore } from "vuex";
@@ -91,6 +84,8 @@ import { useRouter } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
 
 import { ref, reactive, toRefs } from "vue";
+
+import FromDrawer from "@/components/FromDrawer.vue";
 
 import loginApi from "@/api/login.js";
 const data = reactive({
@@ -112,6 +107,7 @@ const data = reactive({
     ],
   },
 });
+
 //初始化store
 const store = useStore();
 
@@ -129,6 +125,7 @@ const loading = ref(false);
 
 const ruleFormRef = ref(null);
 
+const fromDrawerRef = ref(null);
 // 修改密码  退出登录
 const handleCommand = (command) => {
   switch (command) {
@@ -138,7 +135,7 @@ const handleCommand = (command) => {
       break;
     case "rePassword":
       // rePassword调用修改密码方法
-      Showdrawer.value = true;
+      fromDrawerRef.value.open();
       break;
   }
 };
@@ -148,13 +145,13 @@ const submitForm = () => {
   ruleFormRef.value.validate((valid) => {
     if (!valid) return;
     //开启提交按钮loading
-    loading.value = true;
+    fromDrawerRef.value.showLoading();
 
     loginApi
       .updatepassword(data.ruleForm)
       .then((response) => {
         //关闭提交按钮loading
-        loading.value = false;
+        fromDrawerRef.value.hideLoading();
         taost("修改密码成功,请重新登录");
         //清空本地和vuex数据
         store.dispatch("loginOut");
@@ -162,7 +159,7 @@ const submitForm = () => {
         router.push("/login");
       })
       .finally(() => {
-        loading.value = false;
+        fromDrawerRef.value.hideLoading();
       });
   });
 };
