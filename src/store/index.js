@@ -4,8 +4,9 @@ import userApi from '@/api/login.js'
 const store = createStore({
     state: {
         user: '',//存储用户信息
-        //侧边栏宽度
-        asideWitch: '250px'
+        asideWitch: '250px',   //侧边栏宽度
+        menus: [],//后台返回的菜单数据
+        ruleNames: [],//后台返回按钮权限数据
     },
     mutations: {
         //存储用户信息
@@ -14,7 +15,15 @@ const store = createStore({
         },
         //侧边栏展开收起宽度切换
         handleAsideWidth(state) {
-            state.asideWitch = state.asideWitch ==='250px' ? '64px' : '250px'
+            state.asideWitch = state.asideWitch === '250px' ? '64px' : '250px'
+        },
+        //记录后台返回的菜单数据
+        SET_MENUS(state, menus) {
+            state.menus = menus
+        },
+        //记录后台返回按钮权限数据
+        SET_RULENAMES(state, ruleNames) {
+            state.ruleNames = ruleNames
         }
     },
     getters: {
@@ -37,6 +46,8 @@ const store = createStore({
             return new Promise((resolve, reject) => {
                 userApi.userInfo().then((response) => {
                     commit('USERINFO', response)
+                    commit('SET_MENUS', response.menus)
+                    commit('SET_RULENAMES', response.ruleNames)
                     resolve(response)
                 }).catch((error) => {
                     reject(error);

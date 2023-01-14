@@ -1,10 +1,11 @@
 <template>
   <el-menu
-    default-active="2"
+    :default-active="defaultActive"
     class="el-menu-vertical-demo border-0"
     :style="{ width: $store.state.asideWitch }"
     :collapse="isCollapse"
     :collapse-transition="false"
+    unique-opened
     router
   >
     <template v-for="(item, index) in asideMenus" :key="index">
@@ -40,38 +41,28 @@
 </template>
 <script setup>
 import { computed, ref, reactive } from "vue";
+
 import { useStore } from "vuex";
-//模拟菜单数据
-const asideMenus = [
-  {
-    name: "后台面板",
-    icon: "help",
-  },
-  {
-    name: "后台面板",
-    icon: "help",
-    child: [
-      {
-        name: "主控台",
-        icon: "home-filled",
-        frontpath: "/",
-      },
-    ],
-  },
-  {
-    name: "商品管理",
-    icon: "shopping-bag",
-    child: [
-      {
-        name: "商品管理",
-        icon: "shopping-cart-full",
-        frontpath: "/goods/list",
-      },
-    ],
-  },
-];
+
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
+
 //初始化store
 const store = useStore();
+
+//初始化route
+const route = useRoute();
+
+//模拟菜单数据
+const asideMenus = computed(() => store.state.menus);
+
+//设置菜单默认选中项
+const defaultActive = ref(route.path);
+
+//路由变换的钩子函数
+onBeforeRouteUpdate((to, from) => {
+  defaultActive.value = to.psth;
+});
+
 //控制菜单展开与收起
 const isCollapse = computed(() => !(store.state.asideWitch == "250px"));
 </script>
@@ -85,5 +76,8 @@ const isCollapse = computed(() => !(store.state.asideWitch == "250px"));
   overflow-y: auto;
   overflow-x: hidden;
   @apply shadow-md bg-light-50 fixed;
+}
+.el-menu-vertical-demo::-webkit-scrollbar {
+  width: 0px;
 }
 </style>
