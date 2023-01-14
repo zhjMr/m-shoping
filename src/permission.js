@@ -1,7 +1,9 @@
-import router from '@/router'
+import { router, addRoutes } from '@/router'
 import store from '@/store'
 import { getToken } from '@/composables/auth.js'
 import { showFullloading, hideFullloading } from '@/composables/utils.js'
+
+let hasUserInfo = false
 router.beforeEach(async (to, from, next) => {
     //开启loading进度条
     showFullloading()
@@ -18,15 +20,20 @@ router.beforeEach(async (to, from, next) => {
             path: from.path ? from.path : '/'
         })
     }
+    let hasNewRoutes = false
     //如果用户登录了，则调用用户信息接口，并存储到vuex
-    if (token) {
-        await store.dispatch('userinfo')
+    if (token && !hasUserInfo) {
+        const { menus } = await store.dispatch('userinfo')
+
+        hasUserInfo = true
+
+        hasNewRoutes = addRoutes(menus)
     }
 
     //动态甚至页面标题
     let title = (to.meta.title ? to.meta.title : '') + " - 后台商城系统"
     document.title = title
-    next()
+    hasNewRoutes ? next(to.fullPath) : next()
 })
 //全局后置守卫
 router.afterEach((to, from) => {

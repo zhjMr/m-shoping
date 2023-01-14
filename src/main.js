@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 //引入vue-router
-import router from './router/index'
+import {router} from './router/index'
 //引入vuex
 import store from './store/index'
 //引入element-ui
