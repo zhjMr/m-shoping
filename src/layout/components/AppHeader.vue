@@ -7,7 +7,10 @@
     </span>
     <!-- 菜单展开或收起的图标 -->
     <el-tooltip effect="dark" content="菜单" placement="bottom">
-      <el-icon class="icon-btn"><Fold /></el-icon>
+      <el-icon class="icon-btn" @click="$store.commit('handleAsideWidth')" >
+        <Fold v-if="$store.state.asideWitch=='250px'"/>
+        <Expand  v-else/>
+      </el-icon>
     </el-tooltip>
     <!-- 全局刷新图标 -->
     <el-tooltip effect="dark" content="刷新" placement="bottom">
@@ -139,19 +142,15 @@ const handleCommand = (command) => {
       break;
   }
 };
-
 //点击提交触发的事件
 const submitForm = () => {
   ruleFormRef.value.validate((valid) => {
     if (!valid) return;
     //开启提交按钮loading
     fromDrawerRef.value.showLoading();
-
     loginApi
       .updatepassword(data.ruleForm)
       .then((response) => {
-        //关闭提交按钮loading
-        fromDrawerRef.value.hideLoading();
         taost("修改密码成功,请重新登录");
         //清空本地和vuex数据
         store.dispatch("loginOut");
@@ -159,6 +158,7 @@ const submitForm = () => {
         router.push("/login");
       })
       .finally(() => {
+        //成功或失败都关闭
         fromDrawerRef.value.hideLoading();
       });
   });

@@ -4,11 +4,17 @@ import userApi from '@/api/login.js'
 const store = createStore({
     state: {
         user: '',//存储用户信息
+        //侧边栏宽度
+        asideWitch: '250px'
     },
     mutations: {
         //存储用户信息
         USERINFO(state, user) {
             state.user = user
+        },
+        //侧边栏展开收起宽度切换
+        handleAsideWidth(state) {
+            state.asideWitch = state.asideWitch ==='250px' ? '64px' : '250px'
         }
     },
     getters: {

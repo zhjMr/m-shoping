@@ -5,7 +5,7 @@
         <AppHeader></AppHeader>
       </el-header>
       <el-container>
-        <el-aside width="250px">
+        <el-aside :width="$store.state.asideWitch">
           <AppAside></AppAside>
         </el-aside>
         <el-main>
@@ -23,4 +23,8 @@ import AppAside from "@/layout/components/AppAside.vue"; //侧边菜单
 import navigation from "@/layout/components/navigation.vue"; //导航栏展示
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-aside {
+  transition: all 0.5s;
+}
+</style>
